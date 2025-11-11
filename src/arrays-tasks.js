@@ -536,8 +536,8 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.flatMap((el, index) => Array(index + 1).fill(el));
 }
 
 /**
@@ -553,8 +553,15 @@ function propagateItemsByPositionIndex(/* arr */) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  if (n >= 0) {
+    const start = arr.slice(n + 1, arr.length);
+    arr.unshift(start);
+    return arr.flat().slice(0, arr.length - n + 1);
+  }
+  const start = arr.slice(0, Math.abs(n));
+  arr.push(start);
+  return arr.flat().slice(Math.abs(n), arr.length + Math.abs(n));
 }
 
 /**
@@ -593,8 +600,21 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length <= 1) return arr;
+  const res = [];
+  const middleIndex = Math.floor(arr.length / 2);
+  const middle = arr[middleIndex];
+  const head = arr.slice(0, middleIndex);
+
+  if (arr.length % 2 === 0) {
+    const tail = arr.slice(middleIndex, arr.length);
+    res.unshift(tail, head);
+  } else {
+    const tail = arr.slice(middleIndex + 1, arr.length);
+    res.unshift(tail, middle, head);
+  }
+  return res.flat();
 }
 
 module.exports = {
